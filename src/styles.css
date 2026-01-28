@@ -203,39 +203,70 @@ img{ max-width:100%; display:block; }
 }
 .scrollDown:hover{ background: rgba(10,8,20,.35); }
 
-/* ===== COUNTDOWN (solo cornice + numeri, NO immagine) ===== */
+/* ===== COUNTDOWN (come in foto: barra lunga, non ovale) ===== */
 .countPlate{
   position: relative;
   width: min(760px, 92%);
   margin: 18px auto 0;
-  padding: 18px 22px;
+  padding: 14px 26px;
 
-  border-radius: 999px;
-  border: 1px solid rgba(176,138,90,.55);
+  border-radius: 14px; /* NON ovale */
+  border: 1px solid rgba(176,138,90,.60);
   background:
-    linear-gradient(180deg, rgba(10,8,20,.35), rgba(10,8,20,.15));
+    radial-gradient(120% 160% at 50% 40%, rgba(255,225,185,.12), rgba(10,8,20,.22) 55%, rgba(10,8,20,.32)),
+    linear-gradient(180deg, rgba(10,8,20,.22), rgba(10,8,20,.12));
   backdrop-filter: blur(10px);
   box-shadow: 0 18px 60px rgba(0,0,0,.35);
+
+  overflow: hidden;
 }
 
-/* estremità decorate (simula la "targa" del mockup) */
-.countPlate::before,
+/* linee oro sopra e sotto */
+.countPlate::before{
+  content:"";
+  position:absolute;
+  left: 18px;
+  right: 18px;
+  top: 8px;
+  height: 1px;
+  background: rgba(176,138,90,.55);
+  opacity: .9;
+}
 .countPlate::after{
   content:"";
   position:absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 8px;
+  height: 1px;
+  background: rgba(176,138,90,.40);
+  opacity: .9;
+}
+
+/* “cappucci” decorativi alle estremità */
+.countPlate .capLeft,
+.countPlate .capRight{
+  position:absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 56px;
-  height: 36px;
+  width: 46px;
+  height: 46px;
   border-radius: 999px;
   border: 1px solid rgba(176,138,90,.55);
-  background: radial-gradient(circle at 30% 30%, rgba(255,230,200,.35), rgba(10,8,20,.10));
-  box-shadow: 0 0 0 6px rgba(176,138,90,.10);
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255,230,200,.30), rgba(10,8,20,.12) 60%),
+    radial-gradient(circle at 70% 65%, rgba(176,138,90,.22), transparent 60%);
+  box-shadow:
+    0 0 0 6px rgba(176,138,90,.10),
+    0 16px 40px rgba(0,0,0,.25);
+  opacity: .95;
+  pointer-events:none;
 }
-.countPlate::before{ left: -18px; }
-.countPlate::after{ right: -18px; }
+.countPlate .capLeft{ left: -18px; }
+.countPlate .capRight{ right: -18px; }
 
 .countGrid{
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
@@ -245,10 +276,10 @@ img{ max-width:100%; display:block; }
   position: relative;
   display: grid;
   justify-items: center;
-  gap: 2px;
+  gap: 4px;
 }
 
-/* separatori verticali */
+/* separatori verticali discreti */
 .countCol:not(:last-child)::after{
   content:"";
   position:absolute;
@@ -257,9 +288,9 @@ img{ max-width:100%; display:block; }
   transform: translateY(-50%);
   width: 1px;
   height: 34px;
-  background: rgba(255,235,205,.18);
+  background: rgba(255,235,205,.16);
 }
-.countCol{ display: grid; justify-items: center; gap: 2px; }
+
 .countNum{
   font-family: var(--font-serif);
   font-size: clamp(22px, 3.2vw, 34px);
@@ -273,6 +304,13 @@ img{ max-width:100%; display:block; }
   font-size: 10px;
   letter-spacing: .18em;
   color: rgba(255, 235, 205, 0.82);
+  text-transform: uppercase;
+}
+
+@media (max-width: 520px){
+  .countPlate{ padding: 12px 18px; }
+  .countPlate::before, .countPlate::after{ left: 14px; right: 14px; }
+  .countPlate .capLeft, .countPlate .capRight{ width: 40px; height: 40px; }
 }
 
 /* ===== GALLERY ===== */
@@ -494,10 +532,6 @@ footer{ padding: 28px 0 40px; color: var(--muted2); text-align:center; }
   position: relative;
   width: 100%;
 
-  /* Background composito per:
-     - ridurre lo stacco con il primo sfondo
-     - evitare "zoom" eccessivo su chiesa.png
-     - garantire continuità anche quando l'immagine finisce */
   background-image:
     radial-gradient(1100px 700px at 50% 10%, rgba(255,190,120,.12), transparent 60%),
     radial-gradient(900px 700px at 50% 70%, rgba(140,90,220,.12), transparent 72%),
@@ -507,13 +541,12 @@ footer{ padding: 28px 0 40px; color: var(--muted2); text-align:center; }
   background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
   background-position: center top, center top, center top, center top;
 
-  /* "zoom out" della chiesa: più scena visibile */
-background-size: cover, cover, cover, clamp(950px, 100vw, 1000px) auto;
+  /* chiesa: meno zoom ma larghezza coerente col primo sfondo */
+  background-size: cover, cover, cover, clamp(950px, 100vw, 1000px) auto;
   background-attachment: scroll;
   background-color: #070411;
 }
 
-/* smorza il passaggio tra sfondi: fade-in della chiesa dall'alto */
 .churchWrap::before{
   content:"";
   position:absolute;
@@ -526,27 +559,28 @@ background-size: cover, cover, cover, clamp(950px, 100vw, 1000px) auto;
   z-index: 0;
 }
 
-/* overlay per leggibilità testo/cards sopra la chiesa */
 .churchOverlay{
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle at top, rgba(0,0,0,.10), rgba(0,0,0,.55));
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,0.10) 0%,
+      rgba(0,0,0,0.18) 45%,
+      rgba(0,0,0,0.28) 100%
+    );
   z-index: 0;
 }
 
-/* tutto il contenuto sopra overlay */
 .churchContent{
   position: relative;
   z-index: 1;
 }
 
-/* Mobile: spesso "cover" croppa troppo.
-   Qui rendiamo la composizione più stabile. */
 @media (max-width: 768px){
   .churchWrap{
-background-position: center top, center top, center top, center 6%;
-    /* su mobile riduciamo ulteriormente il crop della chiesa */
+    background-position: center top, center top, center top, center 6%;
     background-size: cover, cover, cover, 92% auto;
   }
 }
