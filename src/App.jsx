@@ -24,7 +24,7 @@ export default function App() {
         <Rsvp />
         <div
           className="churchWrap"
-          style={{ backgroundImage: `url(${chiesa})` }}
+          style={{ "--church-bg": `url(${chiesa})` }}
         >
           <div className="churchOverlay" />
           <div className="churchContent">

@@ -39,7 +39,7 @@ img{ max-width:100%; display:block; }
   background-repeat: no-repeat;
   background-position: center top;
   /* mostra più scena senza zoom aggressivo */
-  background-size: min(1400px, 100%) auto;
+  background-size: clamp(1000px, 100vw, 1600px) auto;
   background-color: #070411;
 }
 
@@ -542,7 +542,7 @@ footer{ padding: 28px 0 40px; color: var(--muted2); text-align:center; }
   background-position: center top, center top, center top, center top;
 
   /* chiesa: meno zoom ma larghezza coerente col primo sfondo */
-  background-size: cover, cover, cover, clamp(950px, 100vw, 1000px) auto;
+  background-size: cover, cover, cover, clamp(1000px, 100vw, 1600px) auto;
   background-attachment: scroll;
   background-color: #070411;
 }
@@ -581,6 +581,71 @@ footer{ padding: 28px 0 40px; color: var(--muted2); text-align:center; }
 @media (max-width: 768px){
   .churchWrap{
     background-position: center top, center top, center top, center 6%;
-    background-size: cover, cover, cover, 92% auto;
+    background-size: cover, cover, cover, 100% auto;
   }
+}
+
+
+/* ===== RESPONSIVE OPTIMIZATION (tablet + smartphone) ===== */
+@media (max-width: 1024px){
+  .section{ padding: 64px 0; }
+  .sectionCard{ padding: 44px 26px; }
+  .heroBare{ padding: 80px 0 50px; }
+}
+
+@media (max-width: 768px){
+  .container{ width: min(var(--max), calc(100% - 28px)); }
+  .navInner{ height: 64px; }
+  .navBrand strong{ font-size: 14px; }
+  .navBrand span{ font-size: 11px; }
+
+  .btn{ padding: 11px 16px; }
+  .btnSmall{ padding: 9px 12px; }
+
+  .section{ padding: 56px 0; }
+  .sectionCard{ padding: 38px 20px; }
+
+  .hero{ min-height: auto; }
+  .heroBare{ padding: 74px 0 44px; }
+  .heroBareTitle{ font-size: clamp(44px, 10vw, 72px); }
+  .heroBareCtas{ gap: 10px; }
+  .scrollDown{ bottom: 14px; }
+
+  .countPlate{ width: min(720px, 100%); padding: 12px 18px; }
+  .countPlate .capLeft{ left: -22px; width: 42px; height: 42px; }
+  .countPlate .capRight{ right: -22px; width: 42px; height: 42px; }
+  .countCol:not(:last-child)::after{ height: 28px; }
+  .countLbl{ font-size: 9px; }
+
+  /* Gallery: 2 colonne su tablet, 1 su phone */
+  .galleryGrid{ grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .galleryItem img{ height: 210px; }
+
+  .rsvpCard{ padding: 40px 20px; }
+}
+
+@media (max-width: 520px){
+  .section{ padding: 46px 0; }
+
+  /* CTA verticali su phone */
+  .heroBareCtas{ flex-direction: column; align-items: center; }
+  .heroBareCtas .btn{ width: min(320px, 92%); }
+
+  /* Countdown 2x2 su schermi piccoli */
+  .countGrid{ grid-template-columns: repeat(2, 1fr); row-gap: 10px; }
+  .countCol:not(:last-child)::after{ display:none; }
+  .countCol{ padding: 6px 0; }
+  .countPlate::before{ left: 12px; right: 12px; }
+  .countPlate::after{ left: 12px; right: 12px; }
+
+  .galleryGrid{ grid-template-columns: 1fr; }
+  .galleryItem img{ height: 240px; }
+
+  .whereRow{ grid-template-columns: 78px 1fr; }
+  .whereActions{ flex-direction: column; }
+  .whereActions .btn{ width: 100%; }
+}
+
+@media (max-width: 380px){
+  .heroBareTitle{ font-size: 42px; }
 }

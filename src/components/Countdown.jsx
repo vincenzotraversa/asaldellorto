@@ -26,6 +26,8 @@ export default function Countdown({ targetIso = "2026-07-31T00:00:00" }) {
 
   return (
     <div className="countPlate" aria-label="Countdown">
+      <span className="capLeft" aria-hidden="true" />
+      <span className="capRight" aria-hidden="true" />
       <div className="countGrid" role="presentation">
         <div className="countCol">
           <div className="countNum">{parts.days}</div>
