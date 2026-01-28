@@ -1,0 +1,95 @@
+import React, { useState } from "react";
+
+export default function Rsvp() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    confirm: "Si, non posso mancare",
+    guests: "1",
+    notes: "",
+  });
+
+  const onChange = (e) =>
+    setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    alert("Conferma inviata! (da collegare al salvataggio Excel)");
+  };
+
+  return (
+    <section id="rsvp" className="section">
+      <div className="container sectionCard rsvpCard">
+        <div className="rsvpHeader">
+          <div className="rsvpKicker">RSVP</div>
+          <h2 className="sectionTitle">Conferma la tua presenza</h2>
+          <p className="sectionSub">
+            È gradita gentile conferma entro il 31 Marzo 2026.
+          </p>
+        </div>
+
+        <form className="rsvpForm" onSubmit={onSubmit}>
+          <label className="field">
+            <span>Nome e cognome</span>
+            <input
+              name="name"
+              value={form.name}
+              onChange={onChange}
+              placeholder="Nome e cognome"
+              required
+            />
+          </label>
+
+          <label className="field">
+            <span>E-mail</span>
+            <input
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={onChange}
+              placeholder="E-mail"
+              required
+            />
+          </label>
+
+          <label className="field">
+            <span>Conferma</span>
+            <select name="confirm" value={form.confirm} onChange={onChange}>
+              <option>Si, non posso mancare</option>
+              <option>No, non riesco</option>
+              <option>Forse</option>
+            </select>
+          </label>
+
+          <label className="field">
+            <span>Numero di invitati</span>
+            <select name="guests" value={form.guests} onChange={onChange}>
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <option key={n} value={String(n)}>
+                  {n}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="field fieldFull">
+            <span>Note</span>
+            <textarea
+              name="notes"
+              value={form.notes}
+              onChange={onChange}
+              placeholder="Allergie, preferenze, info utili..."
+              rows={4}
+            />
+          </label>
+
+          <div className="rsvpActions">
+            <button className="btn btnPrimary" type="submit">
+              Invia conferma
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+}

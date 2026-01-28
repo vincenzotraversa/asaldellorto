@@ -1,0 +1,552 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Inter:wght@400;600;700&display=swap");
+
+:root{
+  --font-title: "Great Vibes", cursive;
+  --font-serif: "Cinzel", serif;
+  --font-ui: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  --ink: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.70);
+  --muted2: rgba(255,255,255,.55);
+  --line: rgba(255,255,255,.14);
+
+  --accent: #b08a5a;
+  --accent2: #7b5b34;
+
+  --radius: 20px;
+  --shadow: 0 20px 70px rgba(0,0,0,.35);
+
+  --max: 1100px;
+}
+
+*{ box-sizing: border-box; }
+html,body{ margin:0; padding:0; }
+body{ font-family: var(--font-ui); color: var(--ink); background:#070411; overflow-x:hidden; }
+a{ color: inherit; text-decoration: none; }
+img{ max-width:100%; display:block; }
+
+.container{ width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+.section{ padding: 78px 0; position: relative; }
+
+/* ===== BACKGROUND (una sola volta) ===== */
+.siteBackground{
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+
+  background-image: var(--main-bg);
+  background-repeat: no-repeat;
+  background-position: center top;
+  /* mostra più scena senza zoom aggressivo */
+  background-size: min(1400px, 100%) auto;
+  background-color: #070411;
+}
+
+/* sfuma il fondo verso il prossimo scenario (riduce lo stacco tra sfondi) */
+.siteBackground::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height: 240px;
+  pointer-events:none;
+  background: linear-gradient(180deg, rgba(7,4,17,0), rgba(7,4,17,.92) 55%, rgba(7,4,17,1));
+  z-index: 0;
+}
+
+/* overlay scroll (NON fixed) */
+.siteOverlay{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(0,0,0,.10), rgba(0,0,0,.55));
+}
+
+.siteContent{ position: relative; z-index: 1; }
+
+/* ===== NAV ===== */
+.nav{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10,8,20,.35);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.navInner{
+  height: 72px;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.navBrand{ display:flex; flex-direction:column; line-height:1.05; }
+.navBrand strong{ font-family: var(--font-serif); font-size: 16px; letter-spacing:.06em; }
+.navBrand span{ font-size: 12px; color: var(--muted2); }
+
+.navLinks{ display:flex; gap: 14px; align-items:center; }
+.navLinks a{
+  font-size: 13px;
+  color: rgba(255,255,255,.75);
+  padding: 10px 10px;
+  border-radius: 999px;
+}
+.navLinks a:hover{ background: rgba(176,138,90,.16); color: rgba(255,255,255,.95); }
+.navToggle{ display:none; }
+
+@media (max-width: 860px){
+  .navToggle{ display:inline-flex; }
+  .navLinks{
+    display:none;
+    position:absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    padding: 12px 20px 18px;
+    background: rgba(10,8,20,.65);
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(12px);
+    flex-direction: column;
+    align-items:flex-start;
+  }
+  .navLinks.open{ display:flex; }
+  .navLinks a{ width:100%; }
+}
+
+/* ===== BUTTONS ===== */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(10,8,20,.35);
+  color: rgba(255,255,255,.88);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.btnSmall{
+  padding: 10px 14px;
+  font-size: 12px;
+}
+.btn:hover{ transform: translateY(-1px); box-shadow: var(--shadow); border-color: rgba(176,138,90,.35); }
+.btnPrimary{
+  background: linear-gradient(180deg, rgba(176,138,90,.95), rgba(123,91,52,.95));
+  color: #fff;
+  border-color: rgba(176,138,90,.35);
+}
+
+/* ===== SECTIONS (card glass) ===== */
+.sectionCard{
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(10,8,20,.35);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  padding: 54px 34px;
+}
+
+.sectionTitle{
+  text-align:center;
+  margin: 0 0 12px;
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 3vw, 40px);
+  letter-spacing: .06em;
+}
+.sectionSub{
+  text-align:center;
+  margin: 0 auto 24px;
+  max-width: 780px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* ===== HERO ===== */
+.hero{ position: relative; min-height: calc(100vh - 72px); display:flex; align-items:center; }
+.heroBare{ padding: 90px 0 60px; }
+.heroBareInner{ width: 100%; display:flex; justify-content:center; }
+.heroBareTop{ text-align:center; width: min(900px, 100%); padding: 20px 0; }
+.heroBareKicker{ font-family: var(--font-serif); font-size: 12px; letter-spacing: .22em; opacity: .9; }
+.heroBareTitle{
+  margin: 14px 0 2px;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: clamp(54px, 7vw, 92px);
+  line-height: 1;
+  text-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+.heroBareDate{ font-family: var(--font-serif); font-size: 14px; letter-spacing: .18em; opacity: .9; }
+.heroBareCountdown{ margin-top: 16px; display:flex; justify-content:center; }
+.heroBareCtas{ margin-top: 18px; display:flex; gap: 12px; justify-content:center; flex-wrap: wrap; }
+
+.scrollDown{
+  position:absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  width: 44px; height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.20);
+  background: rgba(10,8,20,.25);
+  color:#fff;
+  cursor:pointer;
+  backdrop-filter: blur(10px);
+}
+.scrollDown:hover{ background: rgba(10,8,20,.35); }
+
+/* ===== COUNTDOWN (solo cornice + numeri, NO immagine) ===== */
+.countPlate{
+  position: relative;
+  width: min(760px, 92%);
+  margin: 18px auto 0;
+  padding: 18px 22px;
+
+  border-radius: 999px;
+  border: 1px solid rgba(176,138,90,.55);
+  background:
+    linear-gradient(180deg, rgba(10,8,20,.35), rgba(10,8,20,.15));
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 60px rgba(0,0,0,.35);
+}
+
+/* estremità decorate (simula la "targa" del mockup) */
+.countPlate::before,
+.countPlate::after{
+  content:"";
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(176,138,90,.55);
+  background: radial-gradient(circle at 30% 30%, rgba(255,230,200,.35), rgba(10,8,20,.10));
+  box-shadow: 0 0 0 6px rgba(176,138,90,.10);
+}
+.countPlate::before{ left: -18px; }
+.countPlate::after{ right: -18px; }
+
+.countGrid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+}
+
+.countCol{
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+}
+
+/* separatori verticali */
+.countCol:not(:last-child)::after{
+  content:"";
+  position:absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 34px;
+  background: rgba(255,235,205,.18);
+}
+.countCol{ display: grid; justify-items: center; gap: 2px; }
+.countNum{
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 3.2vw, 34px);
+  font-weight: 700;
+  color: rgba(255, 235, 205, 0.95);
+  text-shadow: 0 8px 20px rgba(0,0,0,.45);
+  letter-spacing: .02em;
+}
+.countLbl{
+  font-family: var(--font-serif);
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: rgba(255, 235, 205, 0.82);
+}
+
+/* ===== GALLERY ===== */
+.galleryGrid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 18px;
+}
+.galleryItem{
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 20px 55px rgba(0,0,0,.30);
+}
+.galleryItem img{ width: 100%; height: 240px; object-fit: cover; display:block; }
+@media (max-width: 900px){
+  .galleryGrid{ grid-template-columns: 1fr; }
+  .galleryItem img{ height: 260px; }
+}
+
+/* ===== RSVP ===== */
+.rsvpCard{ padding: 54px 34px; }
+.rsvpKicker{ text-align:center; font-family: var(--font-serif); font-size: 12px; letter-spacing: .22em; opacity: .9; }
+.rsvpForm{ margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field{ display: grid; gap: 8px; }
+.field span{ font-family: var(--font-serif); font-size: 11px; opacity: .9; letter-spacing: .14em; text-transform: uppercase; }
+.field input,.field select,.field textarea{
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(10,8,20,.35);
+  color: rgba(255,255,255,.92);
+  padding: 12px 12px;
+  outline: none;
+}
+.field input::placeholder,.field textarea::placeholder{ color: rgba(255,255,255,.55); }
+.fieldFull{ grid-column: 1 / -1; }
+.rsvpActions{ grid-column: 1 / -1; display:flex; justify-content:center; margin-top: 8px; }
+@media (max-width: 900px){ .rsvpForm{ grid-template-columns: 1fr; } }
+
+/* ===== GIFTS (leggibile) ===== */
+.giftsRomantic{
+  margin: 0 auto;
+  width: min(760px, 100%);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(10,8,20,.35);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+.giftsHeart{ text-align:center; font-size: 34px; color: rgba(176,138,90,.95); margin-bottom: 10px; }
+.iban{ display:flex; align-items:center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.iban .smallCaps{ font-family: var(--font-serif); font-size: 12px; letter-spacing:.18em; color: var(--muted); }
+.iban code{ font-family: var(--font-serif); font-weight: 700; color: rgba(255, 235, 205, 0.95); }
+.giftsThanks{ text-align:center; color: var(--muted); margin: 16px 0 0; }
+
+/* ===== WHERE & WHEN (cards eleganti) ===== */
+.whereGrid{
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+.whereCard{
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(10,8,20,.28);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 60px rgba(0,0,0,.28);
+  padding: 22px;
+}
+.whereHead{ display:grid; gap: 8px; }
+.whereBadge{
+  width: fit-content;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(176,138,90,.18);
+  border: 1px solid rgba(176,138,90,.35);
+  font-family: var(--font-serif);
+  letter-spacing: .12em;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: rgba(255,235,205,.92);
+}
+.whereTitle{
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  letter-spacing: .02em;
+}
+.whereMeta{ margin-top: 14px; display:grid; gap: 10px; }
+.whereRow{ display:grid; grid-template-columns: 90px 1fr; gap: 12px; align-items:start; }
+.whereLabel{
+  font-family: var(--font-serif);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+.whereValue{ color: rgba(255,255,255,.90); line-height: 1.45; }
+.whereActions{ margin-top: 16px; display:flex; gap: 10px; }
+
+@media (max-width: 900px){
+  .whereGrid{ grid-template-columns: 1fr; }
+  .whereRow{ grid-template-columns: 84px 1fr; }
+}
+
+.tajEntrance .tajArch{
+  position: relative;
+  width: min(980px, calc(100% - 32px));
+  margin: 0 auto;
+  border-radius: 34px;
+  padding: 70px 26px 90px;
+  background:
+    radial-gradient(120% 90% at 50% 15%, rgba(255,220,170,.14), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 40px 120px rgba(0,0,0,.55);
+}
+.tajEntrance .tajArch::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:-210px;
+  transform: translateX(-50%);
+  width: 1200px;
+  height: 520px;
+  border-radius: 0 0 600px 600px;
+  border: 2px solid rgba(176,138,90,.35);
+  box-shadow:
+    0 0 0 10px rgba(176,138,90,.10),
+    0 30px 90px rgba(0,0,0,.55);
+  background: radial-gradient(circle at 50% 80%, rgba(176,138,90,.18), transparent 62%);
+  pointer-events:none;
+}
+.tajEntrance .tajLights{
+  position:absolute;
+  inset: -10%;
+  pointer-events:none;
+  opacity: .32;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.9), transparent),
+    radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,.9), transparent),
+    radial-gradient(1px 1px at 55% 40%, rgba(255,255,255,.9), transparent),
+    radial-gradient(1px 1px at 70% 65%, rgba(255,255,255,.9), transparent),
+    radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,.9), transparent),
+    radial-gradient(2px 2px at 18% 55%, rgba(255,220,160,.70), transparent),
+    radial-gradient(2px 2px at 42% 22%, rgba(255,220,160,.70), transparent),
+    radial-gradient(2px 2px at 76% 18%, rgba(255,220,160,.70), transparent),
+    radial-gradient(2px 2px at 62% 88%, rgba(255,220,160,.70), transparent);
+  filter: drop-shadow(0 0 10px rgba(255,200,120,.18));
+}
+.tajEntrance .tajPath{
+  position: relative;
+  width: min(420px, 80%);
+  height: 62vh;
+  margin: 50px auto 0;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,235,210,.34), rgba(255,200,170,.18), rgba(255,170,140,.10));
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 0 70px rgba(255,190,140,.22), inset 0 0 26px rgba(255,255,255,.10);
+}
+.tajEntrance .tajPath::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: 18px;
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.10) 1px, transparent 14px);
+  opacity: .22;
+}
+.tajEntrance .tajPath::after{
+  content:"";
+  position:absolute;
+  left: 50%;
+  top: 6%;
+  transform: translateX(-50%);
+  width: 68%;
+  height: 22%;
+  border-radius: 20px;
+  background: radial-gradient(circle at center, rgba(255,210,150,.55), transparent 70%);
+  filter: blur(2px);
+  opacity: .9;
+}
+
+/* ===== FOOTER ===== */
+footer{ padding: 28px 0 40px; color: var(--muted2); text-align:center; }
+
+/* ===== QUOTE ===== */
+.quote{
+  padding: 64px 0;
+}
+.quote blockquote{
+  width: min(820px, calc(100% - 40px));
+  margin: 0 auto;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(10,8,20,.35);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  padding: 28px 26px;
+  text-align: center;
+  font-family: var(--font-serif);
+  color: rgba(255,235,205,.92);
+  font-size: clamp(18px, 2.1vw, 24px);
+  line-height: 1.6;
+}
+.quote footer{
+  margin-top: 12px;
+  font-size: 12px;
+  letter-spacing: .18em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ===== SFONDO CHIESA: da RSVP a fine sito ===== */
+.churchWrap{
+  position: relative;
+  width: 100%;
+
+  /* Background composito per:
+     - ridurre lo stacco con il primo sfondo
+     - evitare "zoom" eccessivo su chiesa.png
+     - garantire continuità anche quando l'immagine finisce */
+  background-image:
+    radial-gradient(1100px 700px at 50% 10%, rgba(255,190,120,.12), transparent 60%),
+    radial-gradient(900px 700px at 50% 70%, rgba(140,90,220,.12), transparent 72%),
+    linear-gradient(180deg, rgba(7,4,17,1) 0%, rgba(7,4,17,.98) 45%, rgba(7,4,17,1) 100%),
+    var(--church-bg);
+
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position: center top, center top, center top, center top;
+
+  /* "zoom out" della chiesa: più scena visibile */
+background-size: cover, cover, cover, clamp(950px, 100vw, 1000px) auto;
+  background-attachment: scroll;
+  background-color: #070411;
+}
+
+/* smorza il passaggio tra sfondi: fade-in della chiesa dall'alto */
+.churchWrap::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height: 220px;
+  pointer-events:none;
+  background: linear-gradient(180deg, rgba(7,4,17,1), rgba(7,4,17,0));
+  z-index: 0;
+}
+
+/* overlay per leggibilità testo/cards sopra la chiesa */
+.churchOverlay{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at top, rgba(0,0,0,.10), rgba(0,0,0,.55));
+  z-index: 0;
+}
+
+/* tutto il contenuto sopra overlay */
+.churchContent{
+  position: relative;
+  z-index: 1;
+}
+
+/* Mobile: spesso "cover" croppa troppo.
+   Qui rendiamo la composizione più stabile. */
+@media (max-width: 768px){
+  .churchWrap{
+background-position: center top, center top, center top, center 6%;
+    /* su mobile riduciamo ulteriormente il crop della chiesa */
+    background-size: cover, cover, cover, 92% auto;
+  }
+}
