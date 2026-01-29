@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
+// Web App Apps Script (deve terminare con /exec, non /dev)
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyaQCeRYmwIA3gl3zodS3FWWCt-NI6TS7DYrJAl4kZZ/dev";
-  
+  "https://script.google.com/macros/s/AKfycbxOMxnRUKxKCzUaOfroptUIjSnw7J4gEGl1RJhiYqazvkR0x4fpW3ecLGBTyDcOBCdzPw/exec";
+
 export default function Rsvp() {
   const [form, setForm] = useState({
     name: "",
@@ -24,12 +25,28 @@ export default function Rsvp() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const fullName = (form.name || "").trim();
+    const parts = fullName.split(/\s+/);
+    const nome = parts.shift() || "";
+    const cognome = parts.join(" ") || "";
+
+    // Payload "compatibile": invia sia i campi "nuovi" (name/confirm/guests/notes)
+    // sia quelli "legacy" (nome/cognome/partecipa/ospiti/note), così non si rompe
+    // se lo script Google è stato modificato in una delle due versioni.
     const payload = {
-      name: (form.name || "").trim(),
+      // nuova struttura
+      name: fullName,
       email: (form.email || "").trim(),
       confirm: form.confirm,
       guests: form.guests,
       notes: form.notes,
+
+      // legacy
+      nome,
+      cognome,
+      partecipa: form.confirm,
+      ospiti: form.guests,
+      note: form.notes,
     };
 
     try {
