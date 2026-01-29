@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbyaQCeRYmwIA3gl3zodS3FWWCt-NI6TS7DYrJAl4kZZ/dev";
+  
 export default function Rsvp() {
   const [form, setForm] = useState({
     name: "",
@@ -9,12 +12,56 @@ export default function Rsvp() {
     notes: "",
   });
 
+  const [status, setStatus] = useState({
+    loading: false,
+    message: "",
+    type: "", // "success" | "error"
+  });
+
   const onChange = (e) =>
     setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    alert("Conferma inviata! (da collegare al salvataggio Excel)");
+
+    const payload = {
+      name: (form.name || "").trim(),
+      email: (form.email || "").trim(),
+      confirm: form.confirm,
+      guests: form.guests,
+      notes: form.notes,
+    };
+
+    try {
+      setStatus({ loading: true, message: "", type: "" });
+
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+      });
+
+      setStatus({
+        loading: false,
+        message: "Conferma inviata! Grazie 💖",
+        type: "success",
+      });
+
+      setForm({
+        name: "",
+        email: "",
+        confirm: "Si, non posso mancare",
+        guests: "1",
+        notes: "",
+      });
+    } catch (err) {
+      setStatus({
+        loading: false,
+        message: "Errore nell’invio. Riprova oppure contattaci direttamente.",
+        type: "error",
+      });
+    }
   };
 
   return (
@@ -83,9 +130,21 @@ export default function Rsvp() {
             />
           </label>
 
+          {status.message && (
+            <p
+              className={`rsvpStatus ${
+                status.type === "success" ? "isSuccess" : "isError"
+              }`}
+              role="status"
+              aria-live="polite"
+            >
+              {status.message}
+            </p>
+          )}
+
           <div className="rsvpActions">
-            <button className="btn btnPrimary" type="submit">
-              Invia conferma
+            <button className="btn btnPrimary" type="submit" disabled={status.loading}>
+              {status.loading ? "Invio..." : "Invia conferma"}
             </button>
           </div>
         </form>

@@ -22,10 +22,10 @@ export default function App() {
         <Hero />
         <Gallery />
         <Rsvp />
-        <div
-          className="churchWrap"
-          style={{ "--church-bg": `url(${chiesa})` }}
-        >
+           <div
+            className="churchWrap"
+            style={{ "--church-bg": `url("${chiesa}")` }}   // <- IMPORTANTISSIMO: aggiunte virgolette
+          >
           <div className="churchOverlay" />
           <div className="churchContent">
             <WhereWhen />
