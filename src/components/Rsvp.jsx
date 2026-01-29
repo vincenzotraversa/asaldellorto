@@ -2,7 +2,8 @@ import React, { useState } from "react";
 
 // Web App Apps Script (deve terminare con /exec, non /dev)
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxOMxnRUKxKCzUaOfroptUIjSnw7J4gEGl1RJhiYqazvkR0x4fpW3ecLGBTyDcOBCdzPw/exec";
+  import.meta.env.VITE_RSVP_ENDPOINT ||
+  "https://script.google.com/macros/s/AKfycbzuF3jtJ8Cof4pEEX4KMrcR85-qprN9WL1MAKgGL3YI10KyHnXPmFE4_4R9SHpfirTDdA/exec";
 
 export default function Rsvp() {
   const [form, setForm] = useState({

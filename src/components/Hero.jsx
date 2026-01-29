@@ -1,5 +1,6 @@
 import React from "react";
 import Countdown from "./Countdown.jsx";
+import heroMobileImg from "../assets/michelepaolahome2.png";
 
 export default function Hero() {
   const scrollTo = (id) => {
@@ -10,6 +11,10 @@ export default function Hero() {
   return (
     <section id="home" className="hero heroBare">
       <div className="container heroBareInner">
+        <div className="heroMobilePoster" aria-hidden="true">
+          <img src={heroMobileImg} alt="" />
+        </div>
+
         <div className="heroBareTop">
           <div className="heroBareKicker">IL NOSTRO GIORNO</div>
           <h1 className="heroBareTitle">Michele &amp; Paola</h1>
